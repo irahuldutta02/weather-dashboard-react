@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useWeather = () => {
+export const useWeather = () => {
   const [weatherData, setWeatherData] = useState({
     location: "",
     climate: "",
@@ -37,13 +37,12 @@ const useWeather = () => {
       );
 
       if (!response.ok) {
-        const errorMessage = `Fetching weather data failed ${response.status}`;
-        throw new Error(errorMessage);
+        throw new Error(`Fetching weather data failed ${response.status}`);
       }
 
       const data = await response.json();
 
-      const updatedWeatherData = {
+      let updatedWeatherData = {
         ...weatherData,
         location: data?.name,
         climate: data?.weather[0]?.main,
@@ -77,7 +76,7 @@ const useWeather = () => {
     });
 
     navigator.geolocation.getCurrentPosition((position) => {
-      fetchWeatherData(position.coords.latitude, position.coords.latitude);
+      fetchWeatherData(position.coords.latitude, position.coords.longitude);
     });
   }, []);
 
@@ -87,5 +86,3 @@ const useWeather = () => {
     weatherData,
   };
 };
-
-export default useWeather;
