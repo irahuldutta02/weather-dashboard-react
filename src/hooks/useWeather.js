@@ -86,6 +86,7 @@ export const useWeather = () => {
         fetchWeatherData(position.coords.latitude, position.coords.longitude);
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLocation.latitude, selectedLocation.longitude]);
 
   return {
