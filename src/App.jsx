@@ -1,6 +1,7 @@
 import "./App.css";
 import { Page } from "./page";
 import {
+  ErrorProvider,
   FavouriteProvider,
   LocationProvider,
   WeatherProvider,
@@ -9,13 +10,15 @@ import {
 function App() {
   return (
     <>
-      <LocationProvider>
-        <WeatherProvider>
-          <FavouriteProvider>
-            <Page />
-          </FavouriteProvider>
-        </WeatherProvider>
-      </LocationProvider>
+      <ErrorProvider>
+        <LocationProvider>
+          <WeatherProvider>
+            <FavouriteProvider>
+              <Page />
+            </FavouriteProvider>
+          </WeatherProvider>
+        </LocationProvider>
+      </ErrorProvider>
     </>
   );
 }

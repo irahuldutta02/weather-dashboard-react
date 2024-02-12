@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { LocationContext } from "../context";
+import { ErrorContext, LocationContext } from "../context";
 
 export const useWeather = () => {
   const [weatherData, setWeatherData] = useState({
@@ -23,7 +23,7 @@ export const useWeather = () => {
 
   const { selectedLocation } = useContext(LocationContext);
 
-  const [error, setError] = useState(null);
+  const { setError } = useContext(ErrorContext);
 
   const fetchWeatherData = async (latitude, longitude) => {
     try {
@@ -62,7 +62,10 @@ export const useWeather = () => {
 
       setWeatherData(updatedWeatherData);
     } catch (err) {
-      setError(err);
+      setError({
+        message: "Error fetching weather data",
+        error: err,
+      });
     } finally {
       setLoading({
         ...loading,
@@ -86,12 +89,11 @@ export const useWeather = () => {
         fetchWeatherData(position.coords.latitude, position.coords.longitude);
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLocation.latitude, selectedLocation.longitude]);
 
   return {
     loading,
-    error,
     weatherData,
   };
 };

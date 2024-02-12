@@ -1,8 +1,9 @@
 import { useContext } from "react";
-import { LocationContext } from "../context";
+import { ErrorContext, LocationContext } from "../context";
 
 export const useLatLong = () => {
   const { setSelectedLocation } = useContext(LocationContext);
+  const { setError } = useContext(ErrorContext);
 
   function getDataWithLatLong(locationName) {
     fetch(
@@ -26,8 +27,11 @@ export const useLatLong = () => {
           });
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        setError({
+          message: "Error fetching location data",
+          error: err,
+        });
         setSelectedLocation({
           location: "",
           latitude: 0,
